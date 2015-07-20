@@ -1,0 +1,23 @@
+{
+  "name": "scatterbrain",
+  "version": "1.0.0",
+  "description": "Visualize the training of your neural network",
+  "main": "server.js",
+  "dependencies": {
+    "brain": "^0.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PresentPath/ScatterBrain.git"
+  },
+  "author": "Kalev Roomann-Kurrik and Katrina Uychaco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PresentPath/ScatterBrain/issues"
+  },
+  "homepage": "https://github.com/PresentPath/ScatterBrain#readme"
+}
