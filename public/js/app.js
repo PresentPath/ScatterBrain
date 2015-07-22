@@ -13,7 +13,9 @@ socket.on('connect', function() {
   console.log('connection!');
 });
 socket.on('brain', function(result) {
+  // Update paths between nodes when new weights are provided
   console.log('#############\n ', result.iterations, '\n', result.error, '\n', result.brain);
+  
 });
 
 $(document).ready(function() {
@@ -28,7 +30,6 @@ $(document).ready(function() {
     socket.emit('train', formData);
     $('#hiddenLayers').val('');
     console.log('train brains!');
-
   });
 
 });
