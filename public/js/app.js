@@ -32,7 +32,9 @@ $(document).ready(function() {
     console.log('formData:', formData);
     
     // Render nodes for neural network architecture
-    drawNetworks(formData);
+    for (var i=1; i<=4; i++) {
+      console.log('positions for net',i,':', calculateNodePositions(i));
+    }
 
     socket.emit('train', formData);
     $('#hiddenLayers').val('');
@@ -50,11 +52,15 @@ var displayOptions = {
   margin: 20
 };
 
-// Render a network of nodes for neural network
-var drawNetworks = function() {
+// Calculate x,y coordinates of nodes in each network
+var calculateNodePositions = function(networkNum) {
   // Parse the values in the input forms to get the array of nodes for each network
   // Add elements for nodes in input layer and output layer
-  var network1NodeList = [2].concat($('#hiddenLayers1').val().split(',').map(Number),[0]);
+  var network1NodeList = [2].concat($('#hiddenLayers'+networkNum).val().split(',').map(Number),[0]);
+
+  // If no input was provided default to a single hidden layer of 10 nodes
+  network1NodeList[1] = network1NodeList[1] === 0 ? 10 : network1NodeList[1];
+
   // Add one to each layer to account for bias nodes
   network1NodeList = network1NodeList.map(function(elem){
     return elem + 1;
@@ -80,16 +86,13 @@ var drawNetworks = function() {
   network1NodeList.forEach(function(elem, index) {
     // Each element represents a layer
     // For each layer use the number of nodes in the layer to determine the separation between each node
-    var separation = ((displayOptions.height - (2 * displayOptions.margin)) / Math.max((elem - 1),2));
+    var separation = (displayOptions.height / (elem + 1));
     console.log('vertical separation:', separation);
 
     // Generate the y-coordinate for each node in the layer
     var layerYCoordinates = [];
-    for(var i = 0; i < elem; i++) {
-      if (elem === 1) {
-        i = 1;
-      }
-      var yCoordinate = Math.round((i * separation) + (displayOptions.verticalOffset + displayOptions.margin));
+    for(var i = 1; i <= elem; i++) {
+      var yCoordinate = Math.round(i * separation);
       layerYCoordinates.push(yCoordinate);
     }
     console.log('layer', index+1);
@@ -100,4 +103,32 @@ var drawNetworks = function() {
 
   console.log('network1YCoordinates:', network1YCoordinates);
 
+  // Create a 2D array of coordinates for each node in the network
+  return generateNodeCoordinates(network1XCoordinates, network1YCoordinates);
+
 };
+
+// Given arrays for the x-coordinates and y-coordinates of all of the nodes in a network
+// Generate a 2D array of coordinates for each node
+var generateNodeCoordinates = function(xCoordinates, yCoordinates) {
+  return yCoordinates.map(function(layer, layerNum) {
+    return layer.map(function(yLoc) {
+      return { x: xCoordinates[layerNum], y: yLoc };
+    });
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
