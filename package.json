@@ -4,7 +4,10 @@
   "description": "Visualize the training of your neural network",
   "main": "server.js",
   "dependencies": {
-    "brain": "^0.7.0"
+    "body-parser": "^1.13.2",
+    "brain": "^0.7.0",
+    "express": "^4.13.1",
+    "socket.io": "^1.3.6"
   },
   "devDependencies": {},
   "scripts": {
