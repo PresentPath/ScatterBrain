@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+      <h1> Neural Net Training Visualization </h1>
+      <h2> Input Parameters </h2>
+      <form>
+        <label> Hidden Layers Array: <input id='hiddenLayers' type='text' placeHolder='[[10], [10,10], [5,5], [10,5]]'/> </label> <br/>
+        <input type='submit' value='Train!'/>
+      </form>
+
+      <!-- socket.io server intercepts this request and sends the appropriate response -->
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="lib/jquery.js"></script>
+      <script src="js/app.js"></script>
+
+    </body>
+</html>
