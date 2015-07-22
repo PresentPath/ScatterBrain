@@ -2,7 +2,7 @@
 * @Author: kuychaco
 * @Date:   2015-07-20 15:17:09
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-21 18:35:14
+* @Last Modified time: 2015-07-21 20:16:12
 */
 
 'use strict';
@@ -34,7 +34,7 @@ io.on('connection', function(socket) {
   console.log('connection open');
   socket.on('train', function(data) {
 
-    console.log('data', JSON.parse(data.hiddenLayers));
+    console.log('data', data.hiddenLayers);
 
     var children = [];
     var hiddenLayers = data.hiddenLayers === '' ? [[10], [10,10], [5,5], [10,5]] : JSON.parse(data.hiddenLayers);
@@ -53,7 +53,7 @@ io.on('connection', function(socket) {
       });
 
       children[i].on('message', function(result) {
-        io.emit('brain', result);
+        socket.emit('brain', result);
       });
     }
 
