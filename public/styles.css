@@ -1,0 +1,21 @@
+/* 
+* @Author: Katrina Uychaco
+* @Date:   2015-07-22 22:30:50
+* @Last Modified by:   Katrina Uychaco
+* @Last Modified time: 2015-07-22 22:38:40
+*/
+
+
+.node {
+  fill: steelblue;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.node text { font: 12px sans-serif; }
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
