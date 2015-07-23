@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-21 18:18:46
+* @Last Modified time: 2015-07-22 20:54:55
 */
 
 'use strict';
@@ -31,9 +31,22 @@ $(document).ready(function() {
 
     console.log('formData:', formData);
     
-    // Render nodes for neural network architecture
+    // Render neural network architecture
     for (var i=1; i<=4; i++) {
-      console.log('positions for net',i,':', calculateNodePositions(i));
+      
+      // Render nodes
+      var nodePositions = calculateNodePositions(i);
+      console.log('positions for net',i,':', nodePositions);
+      // flatten nodePositions array
+      var flattenedNodePositions = nodePositions.reduce(function(result, layer) {
+        return result.concat(layer);
+      }, []);
+
+      // Render links
+      var links = generateLinkObjects(nodePositions);
+      
+      visualize(i, flattenedNodePositions, links);
+
     }
 
     socket.emit('train', formData);
@@ -49,7 +62,7 @@ var displayOptions = {
   width: 960,
   height: 640,
   verticalOffset: 160,
-  margin: 20
+  margin: 50
 };
 
 // Calculate x,y coordinates of nodes in each network
@@ -119,7 +132,19 @@ var generateNodeCoordinates = function(xCoordinates, yCoordinates) {
 };
 
 
+var generateLinkObjects = function(nodePositions) {
+  return nodePositions.reduce(function(result, layer, index) {
+    
+    return layer.reduce(function(sourceResult, sourceNode) {
 
+      return nodePositions[index+1].reduce(function(targetResult, targetNode) {
+        return targetResult.concat({ source: sourceNode, target: targetNode });
+      }, []);
+
+    }, []);
+
+  });
+};
 
 
 
