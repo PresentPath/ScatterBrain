@@ -46,6 +46,7 @@ io.on('connection', function(socket) {
       // Create child process and run code in worker.js
       children[i] = childProcess.fork('./worker.js');
       console.log('forked child', i, 'with PID', children[i].pid);
+      children[i].networkNum = i + 1;
 
       // Send data to child process
       children[i].send({
@@ -53,6 +54,7 @@ io.on('connection', function(socket) {
       });
 
       children[i].on('message', function(result) {
+        result.networkNum = this.networkNum;
         socket.emit('brain', result);
       });
     }

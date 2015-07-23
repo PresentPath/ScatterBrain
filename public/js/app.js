@@ -14,7 +14,7 @@ socket.on('connect', function() {
 });
 socket.on('brain', function(result) {
   // Update paths between nodes when new weights are provided
-  // console.log('#############\n ', result.iterations, '\n', result.error, '\n', result.brain);
+  console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
   
 });
 
@@ -44,6 +44,8 @@ $(document).ready(function() {
 
       // Render links
       var links = generateLinkObjects(nodePositions);
+
+      console.log('links for net',i,':',links);
       
       visualize(i, flattenedNodePositions, links);
 
@@ -134,16 +136,20 @@ var generateNodeCoordinates = function(xCoordinates, yCoordinates) {
 
 var generateLinkObjects = function(nodePositions) {
   return nodePositions.reduce(function(result, layer, index) {
-    
-    return layer.reduce(function(sourceResult, sourceNode) {
+    // Since we are refering to nodes in the next layer of the network we want to stop
+    // at one layer before the output layer
+    if (index < (nodePositions.length - 1)) {
+      return result.concat(layer.reduce(function(sourceResult, sourceNode) {
 
-      return nodePositions[index+1].reduce(function(targetResult, targetNode) {
-        return targetResult.concat({ source: sourceNode, target: targetNode });
-      }, []);
+        return sourceResult.concat(nodePositions[index+1].reduce(function(targetResult, targetNode) {
+          return targetResult.concat({ source: sourceNode, target: targetNode });
+        }, []));
 
-    }, []);
-
-  });
+      }, []));
+    } else {
+      return result;
+    }  
+  }, []);
 };
 
 

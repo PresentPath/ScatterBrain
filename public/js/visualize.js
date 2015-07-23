@@ -34,7 +34,7 @@ var visualize = function(networkNum, nodePositions, links) {
     .attr('cy', function(d) { return d.y; })
     .attr('r', '10');
 
-  var
+  // var
 
 
 
