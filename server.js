@@ -2,7 +2,7 @@
 * @Author: kuychaco
 * @Date:   2015-07-20 15:17:09
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-21 20:16:12
+* @Last Modified time: 2015-07-22 22:52:56
 */
 
 'use strict';
@@ -37,7 +37,7 @@ io.on('connection', function(socket) {
     console.log('data', data.hiddenLayers);
 
     var children = [];
-    var hiddenLayers = data.hiddenLayers === '' ? [[10], [10,10], [5,5], [10,5]] : JSON.parse(data.hiddenLayers);
+    var hiddenLayers = data.hiddenLayers === '' ? [[5], [5], [5], [5]] : JSON.parse(data.hiddenLayers);
 
     console.log(hiddenLayers);
 

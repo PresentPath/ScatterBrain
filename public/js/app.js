@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-22 22:24:27
+* @Last Modified time: 2015-07-22 22:53:10
 */
 
 'use strict';
@@ -74,7 +74,7 @@ var calculateNodePositions = function(networkNum) {
   var network1NodeList = [2].concat($('#hiddenLayers'+networkNum).val().split(',').map(Number),[0]);
 
   // If no input was provided default to a single hidden layer of 10 nodes
-  network1NodeList[1] = network1NodeList[1] === 0 ? 10 : network1NodeList[1];
+  network1NodeList[1] = network1NodeList[1] === 0 ? 5 : network1NodeList[1];
 
   // Add one to each layer to account for bias nodes
   network1NodeList = network1NodeList.map(function(elem){
@@ -141,7 +141,10 @@ var generateLinkObjects = function(nodePositions) {
     if (index < (nodePositions.length - 1)) {
       return result.concat(layer.reduce(function(sourceResult, sourceNode) {
 
-        return sourceResult.concat(nodePositions[index+1].reduce(function(targetResult, targetNode) {
+        return sourceResult.concat(nodePositions[index+1].reduce(function(targetResult, targetNode, targetIndex) {
+          if (index < nodePositions.length-2 && targetIndex === 0) {
+            return targetResult;
+          }
           return targetResult.concat({ source: sourceNode, target: targetNode });
         }, []));
 
