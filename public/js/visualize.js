@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 19:57:55
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-22 22:39:11
+* @Last Modified time: 2015-07-22 22:54:04
 */
 
 'use strict';
@@ -46,7 +46,5 @@ var visualize = function(networkNum, nodePositions, linksSource) {
     .attr('cx', function(d) { return d.x; })
     .attr('cy', function(d) { return d.y; })
     .attr('r', '10');
-
-
 
 };
