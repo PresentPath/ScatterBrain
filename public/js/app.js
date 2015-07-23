@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-22 20:54:55
+* @Last Modified time: 2015-07-22 22:24:27
 */
 
 'use strict';
@@ -14,7 +14,7 @@ socket.on('connect', function() {
 });
 socket.on('brain', function(result) {
   // Update paths between nodes when new weights are provided
-  console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
+  // console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
   
 });
 
