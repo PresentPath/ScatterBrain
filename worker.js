@@ -28,7 +28,7 @@ process.on('message', function(data) {
 
   var options = {
     callback: function(result) {
-      // console.log('###### Process PID', process.pid, '#######\n ', result.iterations, '\n', result.error, '\n', result.brain);
+      console.log('###### Process PID', process.pid, '#######\n ', result.iterations, '\n', result.error, '\n', result.brain);
       process.send(result);
     },
     callbackPeriod: 500,

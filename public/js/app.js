@@ -14,7 +14,7 @@ socket.on('connect', function() {
 });
 socket.on('brain', function(result) {
   // Update paths between nodes when new weights are provided
-  // console.log('#############\n ', result.iterations, '\n', result.error, '\n', result.brain);
+  console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
   
 });
 
