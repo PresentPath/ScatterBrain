@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-22 22:53:10
+* @Last Modified time: 2015-07-22 23:05:14
 */
 
 'use strict';
@@ -22,6 +22,8 @@ $(document).ready(function() {
   $('form').submit(function(e) {
     
     e.preventDefault();
+
+    $('svg g').empty();
 
     var formDataString = '[[' + $('#hiddenLayers1').val() + '],[' + $('#hiddenLayers2').val() + '],[' + $('#hiddenLayers3').val() + '],[' + $('#hiddenLayers4').val() + ']]';
 
