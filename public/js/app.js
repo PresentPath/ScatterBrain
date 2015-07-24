@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-22 23:05:14
+* @Last Modified time: 2015-07-24 13:25:51
 */
 
 'use strict';
@@ -14,7 +14,7 @@ socket.on('connect', function() {
 });
 socket.on('brain', function(result) {
   // Update paths between nodes when new weights are provided
-  // console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
+  console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
   
 });
 
@@ -25,10 +25,13 @@ $(document).ready(function() {
 
     $('svg g').empty();
 
-    var formDataString = '[[' + $('#hiddenLayers1').val() + '],[' + $('#hiddenLayers2').val() + '],[' + $('#hiddenLayers3').val() + '],[' + $('#hiddenLayers4').val() + ']]';
+    var formDataString = ',[' + $('#hiddenLayers2').val() + '],[' + $('#hiddenLayers3').val() + '],[' + $('#hiddenLayers4').val() + ']]';
 
     var formData = {
-      'hiddenLayers': formDataString
+      'hiddenLayers1': '[' + $('#hiddenLayers1').val() + ']',
+      'hiddenLayers2': '[' + $('#hiddenLayers2').val() + ']',
+      'hiddenLayers3': '[' + $('#hiddenLayers3').val() + ']',
+      'hiddenLayers4': '[' + $('#hiddenLayers4').val() + ']'
     };
 
     console.log('formData:', formData);
@@ -135,7 +138,7 @@ var generateNodeCoordinates = function(xCoordinates, yCoordinates) {
   });
 };
 
-
+// Given node positions, generate link objects with source and target nodes
 var generateLinkObjects = function(nodePositions) {
   return nodePositions.reduce(function(result, layer, index) {
     // Since we are refering to nodes in the next layer of the network we want to stop
@@ -157,7 +160,16 @@ var generateLinkObjects = function(nodePositions) {
   }, []);
 };
 
+// Parse brain object into flat array format for d3 data binding
+var flattenBrainWeights = function(brain) {
+  return brain.layers.reduce(function(weights, layer) {
+    
+  }, []);
+};
 
+
+// d3 update function to change style for links to reflect weight
+// display error rates for comparison
 
 
 
