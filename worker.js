@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-20 14:50:47
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-21 18:00:59
+* @Last Modified time: 2015-07-24 18:34:37
 */
 
 'use strict';
@@ -31,14 +31,15 @@ process.on('message', function(data) {
       console.log('###### Process PID', process.pid, '#######\n ', result.iterations, '\n', result.error, '\n', result.brain);
       process.send(result);
     },
-    callbackPeriod: 500,
+    callbackPeriod: 10,
     iterations: data.iterations
   };
+
 
   net.train(trainingData, options);
 
   var output = net.run([1, 0]);  // [0.987]
 
-  console.log('OUTPUT for PID', process.pid, '\n', output);
+  // console.log('OUTPUT for PID', process.pid, '\n', output);
 
 });

@@ -2,7 +2,7 @@
 * @Author: kuychaco
 * @Date:   2015-07-20 15:17:09
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-22 22:52:56
+* @Last Modified time: 2015-07-24 18:01:39
 */
 
 'use strict';
@@ -34,12 +34,16 @@ io.on('connection', function(socket) {
   console.log('connection open');
   socket.on('train', function(data) {
 
-    console.log('data', data.hiddenLayers);
+    // console.log('data', data.hiddenLayers);
 
     var children = [];
-    var hiddenLayers = data.hiddenLayers === '' ? [[5], [5], [5], [5]] : JSON.parse(data.hiddenLayers);
+    var hiddenLayers = [];
+    hiddenLayers[0] = data.hiddenLayers1 === '[]' ? [3] : JSON.parse(data.hiddenLayers1);
+    hiddenLayers[1] = data.hiddenLayers2 === '[]' ? [3,3] : JSON.parse(data.hiddenLayers2);
+    hiddenLayers[2] = data.hiddenLayers3 === '[]' ? [5] : JSON.parse(data.hiddenLayers3);
+    hiddenLayers[3] = data.hiddenLayers4 === '[]' ? [3,5] : JSON.parse(data.hiddenLayers4);
 
-    console.log(hiddenLayers);
+    // console.log(hiddenLayers);
 
     // Set up one child process per core
     for (var i=0; i<4; i++) {
