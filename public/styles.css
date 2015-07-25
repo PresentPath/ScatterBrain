@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 22:30:50
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-22 22:38:40
+* @Last Modified time: 2015-07-24 22:17:20
 */
 
 
@@ -18,4 +18,20 @@
   fill: none;
   stroke: #ccc;
   stroke-width: 2px;
+}
+
+th {
+  text-align: center;
+}
+
+body {
+  padding-left: 20px;
+}
+
+h4 {
+  font-style: italic;
+}
+
+p {
+  padding-bottom: 10px;
 }

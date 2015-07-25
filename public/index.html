@@ -2,16 +2,20 @@
 <html lang="en">
     <head>
       <meta charset="utf-8">
+      <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet'>
       <link rel='stylesheet' type='css' href='styles.css'>
     </head>
     <body>
       <h1> Neural Net Training Visualization </h1>
+      <h4> Watch the evolution of your neural nets as they are being trained! </h4>
 
-      <p>  </p>
+      <p> The opacity of the inter-neuron links indicates link weight. <br/>
+      Bias nodes for each layer are light blue. </p> 
 
       <form>
 
         <table>
+
           <tr>
             <th> Hyper Paramter </th> 
             <th> Network 1 </th> 
@@ -19,6 +23,7 @@
             <th> Network 3 </th> 
             <th> Network 4 </th> 
           </tr>
+
           <tr>
             <td> Hidden Layers </td>
             <td> <input id='hiddenLayers1' type='text' placeHolder='3'/> </td>
@@ -45,7 +50,7 @@
 
         </table>
         
-        <input type='submit' value='Train!'/>
+        <input id='trainButton' type='submit' value='Train!'/>
       </form>
 
       <!-- socket.io server intercepts this request and sends the appropriate response -->
