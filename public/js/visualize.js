@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 19:57:55
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 18:16:25
+* @Last Modified time: 2015-07-24 20:10:03
 */
 
 'use strict';
@@ -62,10 +62,10 @@ var update = function(result, weights) {
   // Update weights
   var maxWeight = Math.max.apply(null, weights);
   var minWeight = Math.min.apply(null, weights);
-  var range = maxWeight - minWeight;
+  var max = Math.max(Math.abs(maxWeight), Math.abs(minWeight));
   var links = svgs[netNum-1].selectAll('path');
   links.style('stroke', function(d, i) {
-    var opacity = (weights[i]-minWeight)/range;
+    var opacity = Math.abs(weights[i])/max;
     return 'rgba(30,30,30,' + opacity + ')';
   });
 
