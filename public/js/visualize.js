@@ -2,13 +2,13 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 19:57:55
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 21:36:16
+* @Last Modified time: 2015-07-24 21:44:50
 */
 
 'use strict';
 
 var width = 960/4,
-    height = 640;
+    height = 720;
 
 var diagonal = d3.svg.diagonal();
 
@@ -21,10 +21,14 @@ for (var i=0; i<4; i++){
       .attr('height', height)
     
   svg.append('g');
-  svg.append('text').attr('y', '570').attr('class', 'netNum').text('Net Number '+(i+1)).style('font-weight', 'bold');
-  svg.append('text').attr('y', '590').attr('class', 'numIterations');
-  svg.append('text').attr('y', '610').attr('class', 'error');
-  svg.append('text').attr('y', '630').attr('class', 'output');
+  svg.append('text').attr('x', 40).attr('y', height-70).attr('class', 'netNum')
+    .text('Net Number '+(i+1)).style('font-weight', 'bold');
+  svg.append('text').attr('x', 40).attr('y', height-50).attr('class', 'numIterations')
+    .text('Iterations: ');
+  svg.append('text').attr('x', 40).attr('y', height-30).attr('class', 'error')
+    .text('Error: ');
+  svg.append('text').attr('x', 40).attr('y', height-10).attr('class', 'output')
+    .text('Output: ');
   svgs.push(svg);
 }
 
