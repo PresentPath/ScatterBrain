@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 19:57:55
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 21:20:24
+* @Last Modified time: 2015-07-24 21:36:16
 */
 
 'use strict';
@@ -21,10 +21,10 @@ for (var i=0; i<4; i++){
       .attr('height', height)
     
   svg.append('g');
-  svg.append('text').attr('class', 'netNum').text('Net Number '+(i+1)).attr('y', '580');
-  svg.append('text').text('Iterations: ').attr('y', '600').attr('class', 'numIterations');
-  svg.append('text').text('Error: ').attr('y', '620').attr('class', 'error');
-  svg.append('text').text('Output: ').attr('y', '640').attr('class', 'output');
+  svg.append('text').attr('y', '570').attr('class', 'netNum').text('Net Number '+(i+1)).style('font-weight', 'bold');
+  svg.append('text').attr('y', '590').attr('class', 'numIterations');
+  svg.append('text').attr('y', '610').attr('class', 'error');
+  svg.append('text').attr('y', '630').attr('class', 'output');
   svgs.push(svg);
 }
 
@@ -69,7 +69,7 @@ var update = function(result, weights) {
   });
 
   // Update results
-  svgs[netNum-1].select('.numIterations').text(result.iterations);
-  svgs[netNum-1].select('.error').text(Math.round(1000*result.error)/1000);
-  svgs[netNum-1].select('.output').text(Math.round(100*result.output)/100);
+  svgs[netNum-1].select('.numIterations').text('Iterations: ' + result.iterations);
+  svgs[netNum-1].select('.error').text('Error: ' + Math.round(1000*result.error)/1000);
+  svgs[netNum-1].select('.output').text('Output: ' + Math.round(100*result.output)/100);
 };
