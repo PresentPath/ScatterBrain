@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-20 14:50:47
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 18:34:37
+* @Last Modified time: 2015-07-24 21:20:52
 */
 
 'use strict';
@@ -15,8 +15,7 @@ var brain = require('brain');
 process.on('message', function(data) {
 
   var net = new brain.NeuralNetwork({
-    hiddenLayers: data.hiddenLayers,
-    learningRate: data.learningRate
+    hiddenLayers: data.hiddenLayers
   });
 
   var trainingData = [
@@ -28,18 +27,15 @@ process.on('message', function(data) {
 
   var options = {
     callback: function(result) {
-      console.log('###### Process PID', process.pid, '#######\n ', result.iterations, '\n', result.error, '\n', result.brain);
+      var output = net.run([1, 0]);  // [0.987]
+      result.output = output;
       process.send(result);
     },
-    callbackPeriod: 10,
-    iterations: data.iterations
+    callbackPeriod: 5,
+    errorThresh: data.errorThresh,
+    learningRate: data.learningRate
   };
 
-
   net.train(trainingData, options);
-
-  var output = net.run([1, 0]);  // [0.987]
-
-  // console.log('OUTPUT for PID', process.pid, '\n', output);
 
 });

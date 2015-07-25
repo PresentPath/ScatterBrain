@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 19:57:55
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 20:10:03
+* @Last Modified time: 2015-07-24 21:20:24
 */
 
 'use strict';
@@ -21,15 +21,15 @@ for (var i=0; i<4; i++){
       .attr('height', height)
     
   svg.append('g');
-  svg.append('text').attr('class', 'netNum').text('Net Number '+(i+1)).attr('y', '600');
-  svg.append('text').text('Iterations: ').attr('y', '620').attr('class', 'numIterations');
-  svg.append('text').text('Error: ').attr('y', '640').attr('class', 'error');
+  svg.append('text').attr('class', 'netNum').text('Net Number '+(i+1)).attr('y', '580');
+  svg.append('text').text('Iterations: ').attr('y', '600').attr('class', 'numIterations');
+  svg.append('text').text('Error: ').attr('y', '620').attr('class', 'error');
+  svg.append('text').text('Output: ').attr('y', '640').attr('class', 'output');
   svgs.push(svg);
 }
 
 // Visualize initial state of neural net
 var visualize = function(networkNum, nodePositions, linksSource) {
-  //console.log('LINKS',links);
 
   var nodes = svgs[networkNum-1].select('g').selectAll('circle');
   var links = svgs[networkNum-1].select('g').selectAll('path');
@@ -40,7 +40,6 @@ var visualize = function(networkNum, nodePositions, linksSource) {
   linksEnter.append('path')
     .attr('class', 'link')
     .attr('d', function(d) {
-      //console.log(d);
       return diagonal({ source: d.source, target: d.target });
     });
 
@@ -71,6 +70,6 @@ var update = function(result, weights) {
 
   // Update results
   svgs[netNum-1].select('.numIterations').text(result.iterations);
-  //console.log(typeof result.error, '@@@@@@@@@@@@@')
   svgs[netNum-1].select('.error').text(Math.round(1000*result.error)/1000);
+  svgs[netNum-1].select('.output').text(Math.round(100*result.output)/100);
 };
