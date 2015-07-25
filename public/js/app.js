@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 20:18:40
+* @Last Modified time: 2015-07-24 21:58:12
 */
 
 'use strict';
@@ -16,12 +16,9 @@ socket.on('connect', function() {
 
 // For neural nets pushed to client, update visualization weights and results
 socket.on('brain', function(result) {
-  console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
-  
   // Update paths between nodes when new weights are provided
   var weights = flattenBrainWeights(result.brain);
   update(result, weights);
-  
 });
 
 // On form submission visualize and train neural networks
@@ -38,17 +35,22 @@ $(document).ready(function() {
       'hiddenLayers1': '[' + $('#hiddenLayers1').val() + ']',
       'hiddenLayers2': '[' + $('#hiddenLayers2').val() + ']',
       'hiddenLayers3': '[' + $('#hiddenLayers3').val() + ']',
-      'hiddenLayers4': '[' + $('#hiddenLayers4').val() + ']'
+      'hiddenLayers4': '[' + $('#hiddenLayers4').val() + ']',
+      'learningRate1': $('#learningRate1').val(),
+      'learningRate2': $('#learningRate2').val(),
+      'learningRate3': $('#learningRate3').val(),
+      'learningRate4': $('#learningRate4').val(),
+      'errorThresh1': $('#errorThresh1').val(),
+      'errorThresh2': $('#errorThresh2').val(),
+      'errorThresh3': $('#errorThresh3').val(),
+      'errorThresh4': $('#errorThresh4').val() 
     };
 
-    //console.log('formData:', formData);
-    
     // Render neural network architecture
     for (var i=1; i<=4; i++) {
       
       // Render nodes
       var nodePositions = calculateNodePositions(i);
-      //console.log('positions for net',i,':', nodePositions);
       // flatten nodePositions array
       var flattenedNodePositions = nodePositions.reduce(function(result, layer) {
         return result.concat(layer);
@@ -57,15 +59,12 @@ $(document).ready(function() {
       // Render links
       var links = generateLinkObjects(nodePositions);
 
-      //console.log('links for net',i,':',links);
-      
       visualize(i, flattenedNodePositions, links);
 
     }
 
     socket.emit('train', formData);
     $('#hiddenLayers').val('');
-    //console.log('train brains!');
 
   });
 
@@ -91,9 +90,9 @@ var calculateNodePositions = function(networkNum) {
   if (networkNodeList[1] === 0) {
     switch (networkNum) {
       case 1: networkNodeList.splice(1,1,3); break; 
-      case 2: networkNodeList.splice(1,1,3,3); break;
+      case 2: networkNodeList.splice(1,1,4); break;
       case 3: networkNodeList.splice(1,1,5); break;
-      case 4: networkNodeList.splice(1,1,3,5); break;
+      case 4: networkNodeList.splice(1,1,3,4); break;
     }
   }
 
@@ -101,10 +100,8 @@ var calculateNodePositions = function(networkNum) {
   networkNodeList = networkNodeList.map(function(elem){
     return elem + 1;
   });
-  console.log(networkNodeList);
   
   var separation = ((displayOptions.width/4) - (2 * displayOptions.margin)) / (networkNodeList.length-1);
-  //console.log('horizontal separation:', separation);
 
   // Calculate the x-coordinates for each layer in network 1
   var networkXCoordinates = [];
@@ -114,7 +111,6 @@ var calculateNodePositions = function(networkNum) {
     networkXCoordinates.push(xCoordinate);
   });
 
-  //console.log(networkXCoordinates);
 
   // Calculate the y-coordinates for each layer in network 1
   var networkYCoordinates = [];
@@ -123,7 +119,6 @@ var calculateNodePositions = function(networkNum) {
     // Each element represents a layer
     // For each layer use the number of nodes in the layer to determine the separation between each node
     var separation = (displayOptions.height / (elem + 1));
-    //console.log('vertical separation:', separation);
 
     // Generate the y-coordinate for each node in the layer
     var layerYCoordinates = [];
@@ -131,13 +126,10 @@ var calculateNodePositions = function(networkNum) {
       var yCoordinate = Math.round(i * separation);
       layerYCoordinates.push(yCoordinate);
     }
-    //console.log('layer', index+1);
-    //console.log('y-coordinates for layer', layerYCoordinates);
 
     networkYCoordinates.push(layerYCoordinates);
   });
 
-  //console.log('networkYCoordinates:', networkYCoordinates);
 
   // Create a 2D array of coordinates for each node in the network
   return generateNodeCoordinates(networkXCoordinates, networkYCoordinates);
@@ -148,8 +140,9 @@ var calculateNodePositions = function(networkNum) {
 // Generate a 2D array of coordinates for each node
 var generateNodeCoordinates = function(xCoordinates, yCoordinates) {
   return yCoordinates.map(function(layer, layerNum) {
-    return layer.map(function(yLoc) {
-      return { x: xCoordinates[layerNum], y: yLoc };
+    return layer.map(function(yLoc, index) {
+      var bias = index===0 && layerNum !== yCoordinates.length-1 ? true : false;
+      return { x: xCoordinates[layerNum], y: yLoc, bias: bias };
     });
   });
 };
@@ -209,7 +202,8 @@ var flattenBrainWeights = function(brain) {
 
 
 
-
+// label iterations and error
+// add learning rate and error rate
 
 
 

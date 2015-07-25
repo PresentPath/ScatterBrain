@@ -2,13 +2,13 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 19:57:55
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 20:10:03
+* @Last Modified time: 2015-07-24 21:56:18
 */
 
 'use strict';
 
 var width = 960/4,
-    height = 640;
+    height = 720;
 
 var diagonal = d3.svg.diagonal();
 
@@ -21,15 +21,19 @@ for (var i=0; i<4; i++){
       .attr('height', height)
     
   svg.append('g');
-  svg.append('text').attr('class', 'netNum').text('Net Number '+(i+1)).attr('y', '600');
-  svg.append('text').text('Iterations: ').attr('y', '620').attr('class', 'numIterations');
-  svg.append('text').text('Error: ').attr('y', '640').attr('class', 'error');
+  svg.append('text').attr('x', 40).attr('y', height-70).attr('class', 'netNum')
+    .text('Net Number '+(i+1)).style('font-weight', 'bold');
+  svg.append('text').attr('x', 40).attr('y', height-50).attr('class', 'numIterations')
+    .text('Iterations: ');
+  svg.append('text').attr('x', 40).attr('y', height-30).attr('class', 'error')
+    .text('Error: ');
+  svg.append('text').attr('x', 40).attr('y', height-10).attr('class', 'output')
+    .text('Output: ');
   svgs.push(svg);
 }
 
 // Visualize initial state of neural net
 var visualize = function(networkNum, nodePositions, linksSource) {
-  //console.log('LINKS',links);
 
   var nodes = svgs[networkNum-1].select('g').selectAll('circle');
   var links = svgs[networkNum-1].select('g').selectAll('path');
@@ -40,7 +44,6 @@ var visualize = function(networkNum, nodePositions, linksSource) {
   linksEnter.append('path')
     .attr('class', 'link')
     .attr('d', function(d) {
-      //console.log(d);
       return diagonal({ source: d.source, target: d.target });
     });
 
@@ -51,8 +54,17 @@ var visualize = function(networkNum, nodePositions, linksSource) {
     .attr('class', 'node')
     .attr('cx', function(d) { return d.x; })
     .attr('cy', function(d) { return d.y; })
-    .attr('r', '10');
-
+    .attr('r', '10')
+    .style('fill', function(d) {
+      if (d.bias) {
+        return 'lightblue';
+      }
+    })
+    .style('stroke', function(d) {
+      if (d.bias) {
+        return 'lightblue';
+      }
+    });
 };
 
 // Update link weights and results
@@ -70,7 +82,7 @@ var update = function(result, weights) {
   });
 
   // Update results
-  svgs[netNum-1].select('.numIterations').text(result.iterations);
-  //console.log(typeof result.error, '@@@@@@@@@@@@@')
-  svgs[netNum-1].select('.error').text(Math.round(1000*result.error)/1000);
+  svgs[netNum-1].select('.numIterations').text('Iterations: ' + result.iterations);
+  svgs[netNum-1].select('.error').text('Error: ' + Math.round(1000*result.error)/1000);
+  svgs[netNum-1].select('.output').text('Output: ' + Math.round(100*result.output)/100);
 };

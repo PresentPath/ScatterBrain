@@ -2,17 +2,55 @@
 <html lang="en">
     <head>
       <meta charset="utf-8">
+      <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet'>
       <link rel='stylesheet' type='css' href='styles.css'>
     </head>
     <body>
       <h1> Neural Net Training Visualization </h1>
-      <h2> Input Parameters </h2>
+      <h4> Watch the evolution of your neural nets as they are being trained! </h4>
+
+      <p> The opacity of the inter-neuron links indicates link weight. <br/>
+      Bias nodes for each layer are light blue. </p> 
+
       <form>
-        <label> Hidden Layers Array for Network 1: <input id='hiddenLayers1' type='text' placeHolder='3'/> </label> <br/>
-        <label> Hidden Layers Array for Network 2: <input id='hiddenLayers2' type='text' placeHolder='3,3'/> </label> <br/>
-        <label> Hidden Layers Array for Network 3: <input id='hiddenLayers3' type='text' placeHolder='5'/> </label> <br/>
-        <label> Hidden Layers Array for Network 4: <input id='hiddenLayers4' type='text' placeHolder='3,5'/> </label> <br/>
-        <input type='submit' value='Train!'/>
+
+        <table>
+
+          <tr>
+            <th> Hyper Paramter </th> 
+            <th> Network 1 </th> 
+            <th> Network 2 </th> 
+            <th> Network 3 </th> 
+            <th> Network 4 </th> 
+          </tr>
+
+          <tr>
+            <td> Hidden Layers </td>
+            <td> <input id='hiddenLayers1' type='text' placeHolder='3'/> </td>
+            <td> <input id='hiddenLayers2' type='text' placeHolder='4'/> </td>
+            <td> <input id='hiddenLayers3' type='text' placeHolder='5'/> </td>
+            <td> <input id='hiddenLayers4' type='text' placeHolder='3,4'/> </td>
+          </tr>
+
+          <tr>
+            <td> Learning Rate </td>
+            <td> <input id='learningRate1' type='text' placeHolder='0.3'/> </td>
+            <td> <input id='learningRate2' type='text' placeHolder='0.3'/> </td>
+            <td> <input id='learningRate3' type='text' placeHolder='0.3'/> </td>
+            <td> <input id='learningRate4' type='text' placeHolder='0.3'/> </td>
+          </tr>
+
+          <tr>
+            <td> Error Threshold </td>
+            <td> <input id='errorThresh1' type='text' placeHolder='0.005'/> </td>
+            <td> <input id='errorThresh2' type='text' placeHolder='0.005'/> </td>
+            <td> <input id='errorThresh3' type='text' placeHolder='0.005'/> </td>
+            <td> <input id='errorThresh4' type='text' placeHolder='0.005'/> </td>
+          </tr>
+
+        </table>
+        
+        <input id='trainButton' type='submit' value='Train!'/>
       </form>
 
       <!-- socket.io server intercepts this request and sends the appropriate response -->
