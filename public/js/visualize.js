@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-22 19:57:55
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 21:44:50
+* @Last Modified time: 2015-07-24 21:56:18
 */
 
 'use strict';
@@ -54,8 +54,17 @@ var visualize = function(networkNum, nodePositions, linksSource) {
     .attr('class', 'node')
     .attr('cx', function(d) { return d.x; })
     .attr('cy', function(d) { return d.y; })
-    .attr('r', '10');
-
+    .attr('r', '10')
+    .style('fill', function(d) {
+      if (d.bias) {
+        return 'lightblue';
+      }
+    })
+    .style('stroke', function(d) {
+      if (d.bias) {
+        return 'lightblue';
+      }
+    });
 };
 
 // Update link weights and results

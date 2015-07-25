@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 21:38:56
+* @Last Modified time: 2015-07-24 21:58:12
 */
 
 'use strict';
@@ -92,7 +92,7 @@ var calculateNodePositions = function(networkNum) {
       case 1: networkNodeList.splice(1,1,3); break; 
       case 2: networkNodeList.splice(1,1,4); break;
       case 3: networkNodeList.splice(1,1,5); break;
-      case 4: networkNodeList.splice(1,1,3,5); break;
+      case 4: networkNodeList.splice(1,1,3,4); break;
     }
   }
 
@@ -140,8 +140,9 @@ var calculateNodePositions = function(networkNum) {
 // Generate a 2D array of coordinates for each node
 var generateNodeCoordinates = function(xCoordinates, yCoordinates) {
   return yCoordinates.map(function(layer, layerNum) {
-    return layer.map(function(yLoc) {
-      return { x: xCoordinates[layerNum], y: yLoc };
+    return layer.map(function(yLoc, index) {
+      var bias = index===0 && layerNum !== yCoordinates.length-1 ? true : false;
+      return { x: xCoordinates[layerNum], y: yLoc, bias: bias };
     });
   });
 };

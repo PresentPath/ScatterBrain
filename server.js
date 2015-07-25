@@ -2,7 +2,7 @@
 * @Author: kuychaco
 * @Date:   2015-07-20 15:17:09
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 21:19:01
+* @Last Modified time: 2015-07-24 21:58:20
 */
 
 'use strict';
@@ -39,7 +39,7 @@ io.on('connection', function(socket) {
     parameters[0].hiddenLayers = data.hiddenLayers1 === '[]' ? [3] : JSON.parse(data.hiddenLayers1);
     parameters[1].hiddenLayers = data.hiddenLayers2 === '[]' ? [4] : JSON.parse(data.hiddenLayers2);
     parameters[2].hiddenLayers = data.hiddenLayers3 === '[]' ? [5] : JSON.parse(data.hiddenLayers3);
-    parameters[3].hiddenLayers = data.hiddenLayers4 === '[]' ? [3,5] : JSON.parse(data.hiddenLayers4);
+    parameters[3].hiddenLayers = data.hiddenLayers4 === '[]' ? [3,4] : JSON.parse(data.hiddenLayers4);
     parameters[0].learningRate = data.learningRate1 === '' ? 0.3 : JSON.parse(data.learningRate1);
     parameters[1].learningRate = data.learningRate2 === '' ? 0.3 : JSON.parse(data.learningRate2);
     parameters[2].learningRate = data.learningRate3 === '' ? 0.3 : JSON.parse(data.learningRate3);
