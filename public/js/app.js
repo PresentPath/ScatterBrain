@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-07-21 16:54:34
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-07-24 18:30:24
+* @Last Modified time: 2015-07-24 20:18:40
 */
 
 'use strict';
@@ -16,7 +16,7 @@ socket.on('connect', function() {
 
 // For neural nets pushed to client, update visualization weights and results
 socket.on('brain', function(result) {
-  //console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
+  console.log('#############\n ', result.networkNum, '\n', result.iterations, '\n', result.error, '\n', result.brain);
   
   // Update paths between nodes when new weights are provided
   var weights = flattenBrainWeights(result.brain);
@@ -83,43 +83,43 @@ var displayOptions = {
 var calculateNodePositions = function(networkNum) {
   // Parse the values in the input forms to get the array of nodes for each network
   // Add elements for nodes in input layer and output layer
-  var network1NodeList = [2].concat($('#hiddenLayers'+networkNum).val().split(',').map(Number),[0]);
+  var networkNodeList = [2].concat($('#hiddenLayers'+networkNum).val().split(',').map(Number),[0]);
 
 
   // If no input was provided default to a single hidden layer of 10 nodes
-  // network1NodeList[1] = network1NodeList[1] === 0 ? 5 : network1NodeList[1];
-  if (network1NodeList[1] === 0) {
+  // networkNodeList[1] = networkNodeList[1] === 0 ? 5 : networkNodeList[1];
+  if (networkNodeList[1] === 0) {
     switch (networkNum) {
-      case 1: network1NodeList.splice(1,1,3); break; 
-      case 2: network1NodeList.splice(1,1,3,3); break;
-      case 3: network1NodeList.splice(1,1,5); break;
-      case 4: network1NodeList.splice(1,1,3,5); break;
+      case 1: networkNodeList.splice(1,1,3); break; 
+      case 2: networkNodeList.splice(1,1,3,3); break;
+      case 3: networkNodeList.splice(1,1,5); break;
+      case 4: networkNodeList.splice(1,1,3,5); break;
     }
   }
 
   // Add one to each layer to account for bias nodes
-  network1NodeList = network1NodeList.map(function(elem){
+  networkNodeList = networkNodeList.map(function(elem){
     return elem + 1;
   });
-  console.log(network1NodeList);
+  console.log(networkNodeList);
   
-  var separation = ((displayOptions.width/4) - (2 * displayOptions.margin)) / (network1NodeList.length-1);
+  var separation = ((displayOptions.width/4) - (2 * displayOptions.margin)) / (networkNodeList.length-1);
   //console.log('horizontal separation:', separation);
 
   // Calculate the x-coordinates for each layer in network 1
-  var network1XCoordinates = [];
+  var networkXCoordinates = [];
   
-  network1NodeList.forEach(function(elem, index) {
+  networkNodeList.forEach(function(elem, index) {
     var xCoordinate = Math.round((index * separation) + displayOptions.margin);
-    network1XCoordinates.push(xCoordinate);
+    networkXCoordinates.push(xCoordinate);
   });
 
-  //console.log(network1XCoordinates);
+  //console.log(networkXCoordinates);
 
   // Calculate the y-coordinates for each layer in network 1
-  var network1YCoordinates = [];
+  var networkYCoordinates = [];
   
-  network1NodeList.forEach(function(elem, index) {
+  networkNodeList.forEach(function(elem, index) {
     // Each element represents a layer
     // For each layer use the number of nodes in the layer to determine the separation between each node
     var separation = (displayOptions.height / (elem + 1));
@@ -134,13 +134,13 @@ var calculateNodePositions = function(networkNum) {
     //console.log('layer', index+1);
     //console.log('y-coordinates for layer', layerYCoordinates);
 
-    network1YCoordinates.push(layerYCoordinates);
+    networkYCoordinates.push(layerYCoordinates);
   });
 
-  //console.log('network1YCoordinates:', network1YCoordinates);
+  //console.log('networkYCoordinates:', networkYCoordinates);
 
   // Create a 2D array of coordinates for each node in the network
-  return generateNodeCoordinates(network1XCoordinates, network1YCoordinates);
+  return generateNodeCoordinates(networkXCoordinates, networkYCoordinates);
 
 };
 
