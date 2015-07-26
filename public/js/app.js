@@ -7,19 +7,10 @@
 
 'use strict';
 
-// EventEmitter-like object
-var socket = io();
 
-socket.on('connect', function() {
-  console.log('connection!');
-});
+// TODO: Replace with Web Workers
+var work = require('webworkify');
 
-// For neural nets pushed to client, update visualization weights and results
-socket.on('brain', function(result) {
-  // Update paths between nodes when new weights are provided
-  var weights = flattenBrainWeights(result.brain);
-  update(result, weights);
-});
 
 // On form submission visualize and train neural networks
 $(document).ready(function() {
@@ -46,6 +37,22 @@ $(document).ready(function() {
       'errorThresh4': $('#errorThresh4').val() 
     };
 
+    var parameters = [{}, {}, {}, {}];
+    parameters[0].hiddenLayers = formData.hiddenLayers1 === '[]' ? [3] : JSON.parse(formData.hiddenLayers1);
+    parameters[1].hiddenLayers = formData.hiddenLayers2 === '[]' ? [4] : JSON.parse(formData.hiddenLayers2);
+    parameters[2].hiddenLayers = formData.hiddenLayers3 === '[]' ? [5] : JSON.parse(formData.hiddenLayers3);
+    parameters[3].hiddenLayers = formData.hiddenLayers4 === '[]' ? [3,4] : JSON.parse(formData.hiddenLayers4);
+    parameters[0].learningRate = formData.learningRate1 === '' ? 0.3 : Number(formData.learningRate1);
+    parameters[1].learningRate = formData.learningRate2 === '' ? 0.3 : Number(formData.learningRate2);
+    parameters[2].learningRate = formData.learningRate3 === '' ? 0.3 : Number(formData.learningRate3);
+    parameters[3].learningRate = formData.learningRate4 === '' ? 0.3 : Number(formData.learningRate4);
+    parameters[0].errorThresh = formData.errorThresh1 === '' ? 0.005 : Number(formData.errorThresh1);
+    parameters[1].errorThresh = formData.errorThresh2 === '' ? 0.005 : Number(formData.errorThresh2);
+    parameters[2].errorThresh = formData.errorThresh3 === '' ? 0.005 : Number(formData.errorThresh3);
+    parameters[3].errorThresh = formData.errorThresh4 === '' ? 0.005 : Number(formData.errorThresh4);
+
+    var children = [];
+
     // Render neural network architecture
     for (var i=1; i<=4; i++) {
       
@@ -61,11 +68,32 @@ $(document).ready(function() {
 
       visualize(i, flattenedNodePositions, links);
 
+      // Set up one child process per core
+     
+      // Create child process and run code in worker.js
+      children[i] = work(require('./worker.js'));
+      children[i].networkNum = i;
+
+      // Send data to child process
+      children[i].postMessage(parameters[i-1]);
+
+      children[i].addEventListener('message', function(result) {
+        // console.log('result:', result);
+        result.data.networkNum = this.networkNum;
+        // Update paths between nodes when new weights are provided
+        var weights = flattenBrainWeights(result.data.brain);
+        update(result.data, weights);
+      });
+
+      // Generate new web worker
+      var worker = work(require('./worker.js'));
+
+      // For updated neural net, update visualization weights and results
+    
+      worker.postMessage(parameters[i]);
     }
 
-    socket.emit('train', formData);
     $('#hiddenLayers').val('');
-
   });
 
 });
