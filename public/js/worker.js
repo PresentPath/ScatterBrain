@@ -13,7 +13,7 @@ var brain = require('brain');
 module.exports = function(self) {
   
   // Process data when passed in
-  process.on('message', function(data) {
+  self.addEventListener('message', function(data) {
 
     var net = new brain.NeuralNetwork({
       hiddenLayers: data.hiddenLayers
@@ -30,9 +30,9 @@ module.exports = function(self) {
       callback: function(result) {
         var output = net.run([1, 0]);  // [0.987]
         result.output = output;
-        process.send(result);
+        self.postMessage(result);
       },
-      callbackPeriod: 5,
+      callbackPeriod: 1,
       errorThresh: data.errorThresh,
       learningRate: data.learningRate
     };
