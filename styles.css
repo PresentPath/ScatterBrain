@@ -35,3 +35,26 @@ h4 {
 p {
   padding-bottom: 10px;
 }
+
+body {
+  text-align: center;
+}
+
+input {
+  text-align: center;
+  border: none;
+}
+
+table {
+  margin: 1em auto;
+}
+
+input[type='submit'] {
+  width: 10em;
+  border-radius: 1em;
+}
+
+h4 {
+  background-color: rgb(173, 216, 230);
+  padding: .3em;
+}
